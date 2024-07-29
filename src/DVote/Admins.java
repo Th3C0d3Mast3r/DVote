@@ -106,17 +106,6 @@ public class Admins
         }
     }
 
-//    public static void setStatus(String presentStatus)
-//    {
-//        if(presentStatus.equals("START"))
-//        {
-//            ElectionStatus();
-//        }
-//        else {
-//            ElectionStatus();
-//        }
-//    }
-
     public static boolean ElectionStatus()
     {
         String state=status;
