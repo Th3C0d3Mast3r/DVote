@@ -103,7 +103,7 @@ You can find the original project here: [DVote-India (Solidity Version)](https:/
 
 ## Contributing
 
-We welcome contributions to improve this project. Please feel free to fork the repository, make changes, and submit a pull request.
+I welcome contributions to improve this project and make Improvements. Please feel free to fork the Repo, Make Apt Changes, and Submit a pull request.
 
 ## License
 
