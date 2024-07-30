@@ -49,7 +49,8 @@ public class Admins {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-        } else if (reply.equals("2") || reply.equalsIgnoreCase("add voter") || reply.contains("voter")) {
+        }
+        else if (reply.equals("2") || reply.equalsIgnoreCase("add voter") || reply.contains("voter")) {
             System.out.print("Enter Voter Name: ");
             String voterName = obj.nextLine();
 
@@ -62,8 +63,21 @@ public class Admins {
             System.out.print("Enter Voter Region: ");
             String voterRegion = obj.nextLine();
 
-            String query1 = "INSERT INTO voterDatabase (voterName, aadharNumber, mobNo, regionCode, voteStatus) VALUES(?,?,?,?,?)";
+            // Check if the region exists in candidateDatabase
+            String checkRegionQuery = "SELECT COUNT(*) FROM candidateDatabase WHERE regionCode = ?";
+            try (PreparedStatement checkStmt = con.prepareStatement(checkRegionQuery)) {
+                checkStmt.setString(1, voterRegion);
+                ResultSet rs = checkStmt.executeQuery();
+                if (rs.next() && rs.getInt(1) == 0) {
+                    System.out.println("Region does not exist in the database. Please enter a valid region.");
+                    adminRights(); // Return to admin menu
+                    return;
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
 
+            String query1 = "INSERT INTO voterDatabase (voterName, aadharNumber, mobNo, regionCode, voteStatus) VALUES(?,?,?,?,?)";
             try (PreparedStatement pstmt = con.prepareStatement(query1)) {
                 pstmt.setString(1, voterName);
                 pstmt.setString(2, voterAadhar);
@@ -76,14 +90,19 @@ public class Admins {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-        } else if (reply.equals("3") || reply.equalsIgnoreCase("start election") || reply.contains("start")) {
+        }
+        else if (reply.equals("3") || reply.equalsIgnoreCase("start election") || reply.contains("start")) {
             startElection();
-        } else if (reply.equals("4") || reply.equalsIgnoreCase("end election") || reply.contains("end")) {
+        }
+        else if (reply.equals("4") || reply.equalsIgnoreCase("end election") || reply.contains("end")) {
             endElection();
-        } else if (reply.equals("5") || reply.equalsIgnoreCase("exit") || reply.contains("xit")) {
+        }
+        else if (reply.equals("5") || reply.equalsIgnoreCase("exit") || reply.contains("xit"))
+        {
             System.out.println("EXITING. . . . ");
             System.exit(0);
-        } else {
+        }
+        else {
             System.exit(0);
         }
     }
